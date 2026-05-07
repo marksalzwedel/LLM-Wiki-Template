@@ -1,0 +1,14 @@
+# OS and editor clutter
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Obsidian local workspace state
+wiki/.obsidian/workspace*.json
+wiki/.obsidian/cache/
+wiki/.trash/
+
+# Temporary working files
+tmp/
+*.tmp
+*.bak

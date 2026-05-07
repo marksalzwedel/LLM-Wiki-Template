@@ -1,168 +1,260 @@
 # Codex Obsidian Research Template
 
-This project is a reusable template for turning a small collection of source documents into an Obsidian-style knowledge base with Codex. It is useful when you want an LLM assistant to read papers, reports, notes, or source material and create linked entity pages for concepts, source documents, contradictions, and reusable research patterns.
+This repository is a clean starting point for projects where Codex reads source material and builds an Obsidian-style Markdown knowledge base.
 
-The current example uses foundational LLM papers, but the structure is meant to be copied and adapted to any domain.
+Use the top-level project folder in Codex. Use the `wiki/` folder as the Obsidian vault.
 
-## Folder Layout
+## What This Template Gives You
 
 ```text
 .
-|-- raw/        Source documents to read, such as PDFs, text files, reports, or notes.
-|-- wiki/       Generated Markdown entity pages for Obsidian or any Markdown reader.
-|-- README.md   Instructions for using and customizing the template.
+|-- raw/          Active source files for the current project.
+|-- wiki/         Active Obsidian vault for the current project.
+|-- examples/     Completed example material for reference.
+|-- AGENTS.md     Instructions for future Codex sessions.
+|-- README.md     Setup and workflow guide.
 ```
 
-## Quick Start
+The active starter wiki is intentionally small:
 
-1. Put your source documents in `raw/`.
-2. Open this folder in Codex.
-3. Ask Codex to read the files in `raw/` and build or update entity pages in `wiki/`.
-4. Open the folder, or just the `wiki/` folder, as an Obsidian vault.
-5. Start from the index page in `wiki/` and follow the `[[bracket links]]`.
+- `wiki/Project Index.md`
+- `wiki/Entity Page Template.md`
+- `wiki/Contradictions and Tensions.md`
 
-For a fresh project, you can delete the example LLM pages in `wiki/` after reviewing the structure. Keep `wiki/Entity Page Template.md` if you want a reusable page pattern.
+The completed LLM example has been moved out of the active vault:
 
-## GitHub Setup Tip
+- `examples/llm-raw/`
+- `examples/llm-wiki/`
 
-When creating or cloning a GitHub repository, make sure the repository root is the high-level project folder that contains `raw/`, `wiki/`, and `README.md`.
+Use the example when you want to see what a finished vault can look like. Do not open it as the active project vault unless you are intentionally studying the example.
 
-If GitHub Desktop or `git clone` creates a second folder inside the project, such as `ProjectName/ProjectName/`, the repository is one level too deep. This usually happens when you clone into an existing project folder instead of cloning into its parent folder.
+## Create a New Project From This Template
+
+1. Copy the whole template folder.
+2. Rename the copied folder to your new project name.
+3. Open the copied folder and confirm it has this shape:
+
+```text
+Your Project/
+|-- raw/
+|-- wiki/
+|-- examples/
+|-- AGENTS.md
+|-- README.md
+```
+
+4. Put project source files in `raw/`.
+5. Keep the active notes in `wiki/`.
+
+If your copy includes a `.git/` folder from the original template and you want a separate new repository, remove that `.git/` folder before creating the new repository. Keep `.git/` only if you intentionally want to preserve the old repository history and remote.
+
+## Create a GitHub Repository
+
+You can use GitHub, GitHub Desktop, or another source-control or configuration-management tool if your team prefers something else.
+
+For GitHub Desktop, the safest flow for an existing folder is:
+
+1. Open PowerShell in the top-level project folder.
+2. Initialize Git there:
+
+```powershell
+git init
+```
+
+3. Open GitHub Desktop.
+4. Choose **File -> Add local repository...**
+5. Select the top-level project folder, not `raw/`, not `wiki/`, and not the parent folder.
+6. Commit the initial files.
+7. Click **Publish repository** to create the GitHub repository.
+
+This avoids the common nested-folder problem.
+
+## Avoid the GitHub Desktop Folder Trap
+
+In GitHub Desktop, **Create New Repository** treats:
+
+- **Name** as the new folder it will create
+- **Local path** as the parent folder where that new folder will be created
+
+So if you already have:
+
+```text
+Documents/GitHub/My Project/
+```
+
+and then create a repository with:
+
+```text
+Name: My Project
+Local path: Documents/GitHub/My Project
+```
+
+you can accidentally get:
+
+```text
+Documents/GitHub/My Project/My Project/.git
+```
 
 The healthy shape is:
 
 ```text
-ProjectName/
+My Project/
 |-- .git/
 |-- raw/
 |-- wiki/
 |-- README.md
 ```
 
-The one-level-off shape is:
+If you ever see this one-level-off shape:
 
 ```text
-ProjectName/
+My Project/
 |-- raw/
 |-- wiki/
 |-- README.md
-|-- ProjectName/
+|-- My Project/
     |-- .git/
 ```
 
-To fix it, move the nested `.git/` folder up into the high-level project folder, move any generated Git files such as `.gitattributes` up with it, then remove the now-empty nested folder.
+fix it by moving the nested `.git/` folder up into the top-level project folder, moving any generated files such as `.gitattributes` with it, and deleting the now-empty nested folder.
 
-## Recommended Codex Prompt
+## Open the Project in Codex
 
-Use a prompt like this after adding your own files to `raw/`:
+Open the top-level project folder in Codex:
 
 ```text
-Read the papers and notes under raw/ and create entity pages in wiki/.
-For each key concept, create a Markdown file with:
+Your Project/
+```
+
+Codex needs the top-level folder because it should be able to see both:
+
+- `raw/` source files
+- `wiki/` Markdown notes
+
+Do not open only `wiki/` in Codex unless you are doing note-only edits.
+
+## Open the Vault in Obsidian
+
+When Obsidian asks you to open a folder as a vault, select:
+
+```text
+Your Project/wiki/
+```
+
+Do not select the top-level project folder as the Obsidian vault unless you intentionally want `raw/`, `examples/`, and project scaffolding to appear in Obsidian.
+
+## First Codex Prompt for a New Project
+
+After adding source files to `raw/`, ask Codex:
+
+```text
+Read the source files under raw/ and create or update entity pages in wiki/.
+For each key concept, source, decision, or entity, create a Markdown page with:
 - a summary
 - an explanation
 - related links using [[brackets]]
-- source-paper links
-- notes about contradictions, disagreements, or tensions between sources
+- source-document links
+- contradictions, disagreements, tensions, or open questions
 
-Also create or update an index page and a contradictions page.
+Update Project Index.md and Contradictions and Tensions.md.
+Do not mix example content from examples/ into the active wiki.
 ```
 
-For an update pass, use:
+## Update Prompt After Adding More Sources
+
+When you add new source material later, ask:
 
 ```text
-Read the new files in raw/ and update wiki/ without deleting existing notes.
-Add new concept pages where needed, extend related links, and update the contradictions page.
+Read the new or changed files in raw/ and update wiki/ incrementally.
+Preserve existing user-written notes.
+Add new pages where needed, extend related links, and update Contradictions and Tensions.md.
+Then check for unresolved [[links]] and duplicate concept pages.
 ```
 
 ## Page Pattern
 
-Most concept pages should follow this shape:
+Most concept and source pages should follow this pattern:
 
 ```markdown
-# Concept Name
+# Page Name
 
 ## Summary
 
-One or two sentences defining the concept.
+One or two sentences defining the page.
 
 ## Explanation
 
-How the concept works, why it matters, and how the sources use it.
+How it works, why it matters, and how the sources use it.
 
 ## Related Links
 
-- [[Another Concept]]
-- [[Source Paper]]
+- [[Related Page]]
 
-## Source Papers
+## Source Documents
 
-- [[Relevant Source]]
+- [[Source Page]]
 
 ## Contradictions and Tensions
 
-- Where sources disagree, revise one another, or use the concept differently.
+- Where sources disagree, revise one another, or leave important questions unresolved.
 ```
 
-The included `wiki/Entity Page Template.md` provides this same pattern inside the vault.
+## Maintaining the Wiki
 
-## Customizing the Template
+Use `wiki/Project Index.md` as the main map.
 
-Change the domain by replacing the files in `raw/`. Examples:
+Use `wiki/Contradictions and Tensions.md` for:
 
-- Academic literature review
-- Product research
-- Legal or policy document comparison
-- Medical-device design history
-- Internal technical documentation
-- Strategy memos
-- Historical archive notes
+- source disagreements
+- term conflicts
+- open questions
+- changing interpretations as new sources are added
 
-Adjust the entity types to fit the domain. For example:
-
-- For research papers: concepts, methods, datasets, metrics, limitations, contradictions.
-- For product work: users, workflows, features, competitors, constraints, decisions.
-- For legal or policy work: statutes, rules, obligations, exceptions, risks, precedents.
-- For engineering docs: services, APIs, modules, failure modes, dependencies, runbooks.
-
-## Obsidian Tips
-
-- When opening this project in Obsidian, select the `wiki/` folder as the vault. Use the higher-level project folder in Codex so Codex can see both `raw/` and `wiki/`.
-- Use `[[Page Name]]` links for concepts that deserve their own pages.
-- Keep one concept per file when possible.
-- Use an index page as the main map.
-- Use a contradictions or tensions page to track disagreements across sources.
-- Rename pages carefully; Obsidian can update links if configured to do so.
-- Add tags only if they help your workflow. Links are usually more useful than broad tags.
+Keep one durable concept per page when possible. Prefer clear page names over clever names. If two pages describe the same idea, merge them and update links.
 
 ## Quality Checks
 
-After Codex updates the wiki, ask it to run a sanity pass:
+After major updates, ask Codex to check:
 
 ```text
-Check wiki/ for unresolved [[links]], missing required sections, duplicate concept pages, and source pages that are not linked from the index.
+Check wiki/ for unresolved [[links]], missing required sections, duplicate concept pages, and source pages that are not linked from Project Index.md.
 ```
 
-Useful checks include:
+Useful checks:
 
-- Every important source has a page.
-- Every key concept has a page.
-- The index links to major clusters.
-- The contradictions page captures real tensions, not just summaries.
-- No `[[links]]` point to missing files.
+- Every important source has a page or index entry.
+- Every important concept has a page.
+- The index links to the major clusters.
+- The tensions page captures real disagreements, not just summaries.
 - Pages distinguish source claims from interpretation.
+- Example content stays under `examples/` unless intentionally copied.
 
-## Suggested Workflow
+## Customizing the Template
 
-1. Add or replace source files in `raw/`.
-2. Ask Codex for a first-pass wiki.
-3. Read the index and contradictions page.
-4. Ask Codex to deepen weak areas or split overloaded pages.
-5. Add your own notes in Obsidian.
-6. When new sources arrive, ask Codex to update the vault incrementally.
+This structure works for many project types:
 
-## Notes for Future Users
+- academic literature reviews
+- product research
+- legal or policy comparison
+- medical-device design history
+- internal technical documentation
+- strategy memos
+- historical archive work
+- customer discovery notes
+- competitive analysis
 
-This template is intentionally small. It does not require a database, build step, or web app. The source documents live in `raw/`, and the knowledge base lives in `wiki/`.
+Adjust the entity types to fit the project:
 
-The best results come from asking Codex to preserve citations, compare sources explicitly, and avoid flattening disagreements into a single consensus summary.
+- Research: concepts, methods, datasets, metrics, limitations, contradictions.
+- Product: users, workflows, features, competitors, constraints, decisions.
+- Legal or policy: statutes, rules, obligations, exceptions, risks, precedents.
+- Engineering: services, APIs, modules, failure modes, dependencies, runbooks.
+
+## Practical Notes
+
+- Codex works from the top-level folder.
+- Obsidian works from `wiki/`.
+- Source files go in `raw/`.
+- Generated and hand-edited notes go in `wiki/`.
+- Examples stay in `examples/`.
+- Commit changes regularly after meaningful wiki updates.
