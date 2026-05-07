@@ -11,6 +11,7 @@ Use the top-level project folder in Codex. Use the `wiki/` folder as the Obsidia
 |-- raw/          Active source files for the current project.
 |-- wiki/         Active Obsidian vault for the current project.
 |-- examples/     Completed example material for reference.
+|-- scripts/      Health-check and maintenance helpers.
 |-- AGENTS.md     Instructions for future Codex sessions.
 |-- README.md     Setup and workflow guide.
 ```
@@ -20,6 +21,8 @@ The active starter wiki is intentionally small:
 - `wiki/Project Index.md`
 - `wiki/Entity Page Template.md`
 - `wiki/Contradictions and Tensions.md`
+- `wiki/Setup Wizard.md`
+- `wiki/Project Health Check.md`
 
 The completed LLM example has been moved out of the active vault:
 
@@ -39,6 +42,7 @@ Your Project/
 |-- raw/
 |-- wiki/
 |-- examples/
+|-- scripts/
 |-- AGENTS.md
 |-- README.md
 ```
@@ -133,6 +137,36 @@ Codex needs the top-level folder because it should be able to see both:
 
 Do not open only `wiki/` in Codex unless you are doing note-only edits.
 
+## Ask Codex for Help
+
+You can type:
+
+```text
+help
+```
+
+Codex should not start editing files from that generic request. The agent instructions in `AGENTS.md` tell Codex to first route the request by asking whether you want to:
+
+- initialize or customize a fresh project
+- add new source material
+- update or clean the wiki
+- run a project health check
+- troubleshoot GitHub, Codex, or Obsidian setup
+
+For a guided setup, use:
+
+```text
+setup wizard
+```
+
+or:
+
+```text
+customize this template
+```
+
+Codex will first check whether the project looks fresh or already established. It should be cautious with established projects and avoid broad restructuring without confirmation.
+
 ## Open the Vault in Obsidian
 
 When Obsidian asks you to open a folder as a vault, select:
@@ -144,6 +178,14 @@ Your Project/wiki/
 Do not select the top-level project folder as the Obsidian vault unless you intentionally want `raw/`, `examples/`, and project scaffolding to appear in Obsidian.
 
 ## First Codex Prompt for a New Project
+
+For a guided setup, start with:
+
+```text
+setup wizard
+```
+
+Codex will ask about the project purpose, audience, source materials, entity types, important tensions, naming conventions, and citation preferences. It can then customize `wiki/Project Index.md`, `wiki/Contradictions and Tensions.md`, and `AGENTS.md`.
 
 After adding source files to `raw/`, ask Codex:
 
@@ -214,10 +256,16 @@ Keep one durable concept per page when possible. Prefer clear page names over cl
 
 ## Quality Checks
 
-After major updates, ask Codex to check:
+After major updates, ask Codex:
 
 ```text
-Check wiki/ for unresolved [[links]], missing required sections, duplicate concept pages, and source pages that are not linked from Project Index.md.
+health check
+```
+
+Codex should run:
+
+```powershell
+python scripts\check_wiki_health.py
 ```
 
 Useful checks:
@@ -228,6 +276,12 @@ Useful checks:
 - The tensions page captures real disagreements, not just summaries.
 - Pages distinguish source claims from interpretation.
 - Example content stays under `examples/` unless intentionally copied.
+
+You can also run the script yourself from the top-level project folder:
+
+```powershell
+python scripts\check_wiki_health.py
+```
 
 ## Customizing the Template
 

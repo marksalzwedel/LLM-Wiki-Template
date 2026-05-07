@@ -16,6 +16,8 @@ This is the starting page for the active project wiki. Replace this text with a 
 
 - [[Entity Page Template]]
 - [[Contradictions and Tensions]]
+- [[Setup Wizard]]
+- [[Project Health Check]]
 
 ## Major Topics
 

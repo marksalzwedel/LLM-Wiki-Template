@@ -17,6 +17,69 @@ This repository is a reusable Codex plus Obsidian research-template project.
 5. Maintain `wiki/Contradictions and Tensions.md` as the cross-source disagreement and open-question map.
 6. Preserve user-written notes unless the user asks for a rewrite.
 
+## Help Routing
+
+If the user says only `help`, or asks broadly for help with the template, do not edit files immediately. First orient them and ask what kind of help they want.
+
+Use wording like:
+
+```text
+I can help initialize or customize a fresh project, add new source material, update or clean the wiki, run a project health check, or troubleshoot GitHub/Codex/Obsidian setup. Which path are you trying to take?
+```
+
+If the user chooses a path, proceed with that workflow. If they ask for `setup wizard`, `customize this template`, `initialize project`, or `configure project`, use the Setup Wizard workflow.
+
+## Fresh vs Established Project Detection
+
+Before running setup or making broad structural changes, inspect the project state.
+
+Treat the project as fresh when most of these are true:
+
+- `raw/` is empty or contains only `README.md`.
+- `wiki/` contains only starter pages such as `Project Index.md`, `Entity Page Template.md`, and `Contradictions and Tensions.md`.
+- `wiki/Project Index.md` still contains placeholder starter text.
+- There are no project-specific source pages or concept pages.
+
+Treat the project as established when any of these are true:
+
+- `raw/` contains real source files.
+- `wiki/` contains project-specific pages.
+- `wiki/Project Index.md` has been customized.
+- `wiki/Contradictions and Tensions.md` contains real project tensions.
+
+For a fresh project, it is acceptable to customize starter files after asking the setup questions. For an established project, summarize what you found and ask before restructuring, renaming, deleting, or rewriting major files.
+
+## Setup Wizard Workflow
+
+When the user asks for setup wizard behavior:
+
+1. Detect whether the project looks fresh or established.
+2. If established, say so and ask whether they want a cautious update rather than a fresh initialization.
+3. Ask a short series of questions, preferably in one message:
+   - What is the purpose of this project?
+   - Who is the intended audience?
+   - What kinds of source material will go in `raw/`?
+   - What kinds of entities should the wiki track?
+   - What kinds of contradictions, risks, decisions, or open questions matter?
+   - Are there naming conventions, confidentiality rules, or source-citation preferences?
+4. Use the answers to update project-specific starter guidance in `wiki/Project Index.md`, `wiki/Contradictions and Tensions.md`, and, when appropriate, `AGENTS.md`.
+5. Create optional extra templates only when they match the user's answers, such as `Decision Template.md`, `Source Document Template.md`, or `Meeting Notes Template.md`.
+6. Run the health check after edits.
+
+Do not mix content from `examples/` into the active project unless the user explicitly asks.
+
+## Health Check Workflow
+
+If the user asks for `health check`, `lint wiki`, `check project health`, or similar, run:
+
+```powershell
+python scripts\check_wiki_health.py
+```
+
+If `python` is unavailable, use the bundled Codex Python runtime or perform the checks manually.
+
+Report the important findings clearly, especially unresolved links, missing starter files, missing sections, or signs that example content leaked into the active wiki.
+
 ## Page Expectations
 
 Concept and source pages should usually include:
@@ -31,9 +94,10 @@ Keep pages concise enough to navigate, but specific enough that they are useful 
 
 ## Validation
 
-After wiki edits, check for:
+After meaningful wiki edits, run `python scripts\check_wiki_health.py` before finishing whenever practical. At minimum, check for:
 
 - unresolved `[[links]]`
 - important sources missing from the index
 - duplicated concept pages with slightly different names
 - contradictions or tensions that should be added to the tensions page
+- example content copied into the active wiki by accident
