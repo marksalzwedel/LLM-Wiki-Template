@@ -24,10 +24,30 @@ If the user says only `help`, or asks broadly for help with the template, do not
 Use wording like:
 
 ```text
-I can help initialize or customize a fresh project, add new source material, update or clean the wiki, run a project health check, or troubleshoot GitHub/Codex/Obsidian setup. Which path are you trying to take?
+I can help initialize or customize a fresh project, add new source material, update or clean the wiki, run a project health check, publish a SharePoint-ready template, or troubleshoot SharePoint/GitHub/Codex/Obsidian setup. Which path are you trying to take?
 ```
 
 If the user chooses a path, proceed with that workflow. If they ask for `setup wizard`, `customize this template`, `initialize project`, or `configure project`, use the Setup Wizard workflow.
+
+## SharePoint Template Workflow
+
+This template may be distributed as a read-only SharePoint folder that users copy into their own SharePoint-synced workspace.
+
+If a user asks how to create a project from the SharePoint template:
+
+1. Tell them to copy the entire template folder into their own SharePoint-synced project area before editing.
+2. Tell them to rename the copied folder to the project name.
+3. If OneDrive Files On-Demand is enabled, tell them to right-click the copied project folder and choose **Always keep on this device**.
+4. Tell them to open the copied top-level folder in Codex.
+5. Then offer the Setup Wizard workflow.
+
+If a maintainer asks to publish or refresh the SharePoint-ready template, run:
+
+```powershell
+python scripts\publish_sharepoint_template.py
+```
+
+The generated folder under `dist/Codex-SharePoint-Template/` is the folder to review and copy or sync into the read-only SharePoint template library. Do not put `.git/` metadata into the SharePoint-distributed template unless the user explicitly asks for a Git-based workflow.
 
 ## Fresh vs Established Project Detection
 

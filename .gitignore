@@ -10,5 +10,8 @@ wiki/.trash/
 
 # Temporary working files
 tmp/
+dist/
+__pycache__/
+*.pyc
 *.tmp
 *.bak

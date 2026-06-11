@@ -14,6 +14,8 @@ Use the top-level project folder in Codex. Use the `wiki/` folder as the Obsidia
 |-- scripts/      Health-check and maintenance helpers.
 |-- AGENTS.md     Instructions for future Codex sessions.
 |-- README.md     Setup and workflow guide.
+|-- README - Start Here.md
+                  Short user-facing guide for copied SharePoint projects.
 ```
 
 The active starter wiki is intentionally small:
@@ -51,6 +53,61 @@ Your Project/
 5. Keep the active notes in `wiki/`.
 
 If your copy includes a `.git/` folder from the original template and you want a separate new repository, remove that `.git/` folder before creating the new repository. Keep `.git/` only if you intentionally want to preserve the old repository history and remote.
+
+## Publish a SharePoint-Ready Template
+
+Use this Git repository as the maintainer source of truth. When you want to give
+non-software users a clean copyable template, publish a generated folder and
+place that generated folder in a read-only SharePoint template library.
+
+From the top-level project folder, run:
+
+```powershell
+python scripts\publish_sharepoint_template.py
+```
+
+The script creates:
+
+```text
+dist/Codex-SharePoint-Template/
+```
+
+The published folder excludes Git metadata, local caches, virtual environments,
+logs, temporary files, and generated output. It keeps the project files users
+need, including:
+
+```text
+AGENTS.md
+README.md
+README - Start Here.md
+raw/
+wiki/
+scripts/
+examples/
+```
+
+Recommended maintainer flow:
+
+1. Update this Git-maintained template.
+2. Run the wiki health check.
+3. Run `python scripts\publish_sharepoint_template.py`.
+4. Review `dist/Codex-SharePoint-Template/`.
+5. Copy or sync that generated folder into the read-only SharePoint template library.
+
+Recommended user flow from SharePoint:
+
+1. Copy the whole published template folder into a personal or team SharePoint-synced workspace.
+2. Rename the copied folder for the new project.
+3. If OneDrive Files On-Demand is enabled, right-click the copied project folder and choose **Always keep on this device**.
+4. Open the copied top-level folder in Codex.
+5. Ask Codex for:
+
+```text
+setup wizard
+```
+
+Do not ask normal users to work in the read-only master template folder. The
+published SharePoint folder is a starting point, not the project workspace.
 
 ## Create a GitHub Repository
 
